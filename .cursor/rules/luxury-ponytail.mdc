@@ -1,0 +1,18 @@
+# Reglas Ponytail & Arquitectura UI/UX Luxury
+
+1. **Estilo y Paleta**:
+   - Fondo: Obsidian `#08070C` y Night Amethyst `#0E0C16`.
+   - Oro Primario: Champán `#D4AF37`, Oro Cálido `#DFBE68`, Acento Glow `rgba(212, 175, 55, 0.25)`.
+   - Púrpura Imperial: `#431475` a `#7928CA` con resplandor suave.
+   - Textos: Blanco Marfil `#FAF7F2`, Perla Muted `#C3BED1`, Gris Ceniza `#8E879E`.
+   - Tipografía: Serif de Alta Gama (`Cinzel` para títulos principales, `Cormorant Garamond` para narrativa editorial, `Plus Jakarta Sans` para interfaces y números legibles).
+
+2. **Microinteracciones y Efectos**:
+   - Tarjetas Bento con bordes translúcidos (`border: 1px solid rgba(212, 175, 55, 0.16)`).
+   - Efectos hover con elevación suave (`transform: translateY(-4px)` con `transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1)`).
+   - Botones con gradientes dorados metálicos y luz reflejada (`box-shadow: 0 0 25px rgba(212, 175, 55, 0.2)`).
+
+3. **YAGNI & Rendimiento**:
+   - No añadir librerías para utilidades simples: usar JavaScript nativo (`Intl.NumberFormat('es-CO')`, `localStorage`, `crypto.randomUUID`).
+   - Cero dependencias CSS pesadas que bloqueen el hilo principal. Mantener el bundle JS por debajo de 400KB gzipped.
+   - Imágenes con `loading="lazy"` y `alt` descriptivos para SEO.
