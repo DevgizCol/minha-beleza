@@ -1,9 +1,9 @@
 # 🏛️ MINHA BELEZA — Santuario Digital de Alta Estética & ADE
 
-[![ADE T0 Quality Audit](https://img.shields.io/badge/ADE%20Audit-100%25%20Aprobado-gold?style=for-the-badge&logo=shield)](https://github.com)
+[![ADE T0 Quality Audit](https://img.shields.io/badge/ADE%20Audit-100%25%20Aprobado-gold?style=for-the-badge&logo=shield)](https://github.com/DevgizCol/minha-beleza)
 [![Architecture: Ponytail YAGNI](https://img.shields.io/badge/YAGNI-Ponytail%20Strict-purple?style=for-the-badge)](https://github.com/DietrichGebert/ponytail)
 [![Testing: Playwright](https://img.shields.io/badge/E2E-Playwright%20Tested-green?style=for-the-badge&logo=playwright)](https://playwright.dev)
-[![Stack: 100% Free Tier](https://img.shields.io/badge/Stack-100%25%20Free%20Tier-blue?style=for-the-badge)](https://github.com)
+[![Stack: 100% Free Tier](https://img.shields.io/badge/Stack-100%25%20Free%20Tier-blue?style=for-the-badge)](https://github.com/DevgizCol/minha-beleza)
 
 > **Producción Digital Nivel $50,000 USD**  
 > Santuario residencial de masoterapia clínica y cosmetología de autor en Laureles (Medellín), concebido bajo los estándares de alta costura digital (*Aman Resorts, Cheval Blanc Paris, Dior Spa*) con una arquitectura **Ponytail YAGNI** antifrágil, cero sobre-ingeniería y 120 FPS fluidos.

@@ -4,6 +4,7 @@ import { apiPlugin } from './vite-api-plugin.ts'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [react(), apiPlugin()],
   server: {
     port: 5173,
