@@ -10,6 +10,8 @@ import { AdminDashboard } from './components/AdminDashboard';
 import { Footer } from './components/Footer';
 import { CookieBanner } from './components/CookieBanner';
 import { LegalModals, type LegalDocType } from './components/LegalModals';
+import { InfiniteMarquee } from './components/InfiniteMarquee';
+import { AtmosphereSwitcher } from './components/AtmosphereSwitcher';
 import { ToastContainer, type ToastMessage } from './components/Toast';
 import { api } from './services/api';
 import type { StudioConfig, ServiceItem, AppointmentItem } from './types';
@@ -187,6 +189,9 @@ export const App: React.FC = () => {
           onExploreServices={handleExploreServices}
         />
 
+        {/* Marquee Editorial Continuo de Alta Costura */}
+        <InfiniteMarquee />
+
         <SanctuaryStory
           config={config}
           onOpenBooking={() => handleOpenBooking()}
@@ -200,6 +205,9 @@ export const App: React.FC = () => {
 
         <LocationSection config={config} />
       </main>
+
+      {/* Atmosphere Switcher Sensorial Flotante (432Hz Sound + Zen Mode) */}
+      <AtmosphereSwitcher />
 
       {/* Footer */}
       <Footer

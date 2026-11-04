@@ -105,6 +105,40 @@ class SpaAudioEngine {
       // Audio seguro
     }
   }
+
+  /**
+   * Cuenco Tibetano / Gong Profundo de Relajación (Ambient Sanctuary Mode)
+   */
+  public playSingingBowl() {
+    if (!this.enabled) return;
+    try {
+      this.initContext();
+      if (!this.ctx) return;
+
+      const fundamental = 216; // Subarmónico de 432Hz
+      const harmonics = [1, 2.76, 5.4];
+      harmonics.forEach((h, i) => {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(fundamental * h, this.ctx.currentTime);
+
+        const initialGain = 0.03 / (i + 1);
+        gain.gain.setValueAtTime(initialGain, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.00001, this.ctx.currentTime + 2.8);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start();
+        osc.stop(this.ctx.currentTime + 2.8);
+      });
+    } catch {
+      // Audio seguro
+    }
+  }
 }
 
 export const spaAudio = new SpaAudioEngine();

@@ -89,7 +89,7 @@ export const Hero: React.FC<HeroProps> = ({ config, onOpenBooking, onExploreServ
               </span>
             </div>
 
-            {/* Monumental Editorial Headline */}
+            {/* Monumental Editorial Headline with Masked Line Rise Animation */}
             <h1
               style={{
                 fontFamily: 'var(--font-serif)',
@@ -101,9 +101,13 @@ export const Hero: React.FC<HeroProps> = ({ config, onOpenBooking, onExploreServ
                 marginBottom: '1.4rem'
               }}
             >
-              El Arte de Restaurar tu <br />
-              <span className="text-gold-shimmer" style={{ fontStyle: 'italic', fontWeight: 400 }}>
-                Bienestar & Esplendor Natural
+              <span className="masked-line-wrap">
+                <span className="masked-line-text">El Arte de Restaurar tu</span>
+              </span>
+              <span className="masked-line-wrap">
+                <span className="masked-line-text masked-line-delay-1 text-gold-shimmer" style={{ fontStyle: 'italic', fontWeight: 400 }}>
+                  Bienestar & Esplendor Natural
+                </span>
               </span>
             </h1>
 
