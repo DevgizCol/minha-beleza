@@ -506,33 +506,7 @@ body {
   box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.85), 0 0 40px rgba(216, 178, 110, 0.08);
 }
 
-/* 4. Atmosphere Switcher Pill */
-.atmosphere-pill {
-  position: fixed;
-  bottom: 24px;
-  left: 24px;
-  z-index: 8500;
-  background: rgba(17, 15, 22, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-full);
-  padding: 0.45rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.65), 0 0 20px rgba(216, 178, 110, 0.06);
-}
-
-@media (max-width: 768px) {
-  .atmosphere-pill {
-    bottom: 80px;
-    left: 16px;
-    padding: 0.35rem 0.8rem;
-  }
-}
-
-/* 5. Reduced Motion Support */
+/* 4. Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   .masked-line-text {
     transform: none !important;

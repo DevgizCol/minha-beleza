@@ -284,7 +284,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Primary Booking Trigger */}
             <button
               onClick={onOpenBooking}
-              className="btn-gold"
+              className="btn-gold btn-gold-nav"
               style={{
                 padding: '0.55rem 1.25rem',
                 fontSize: '0.85rem',
@@ -439,6 +439,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           }
           .client-portal-btn .btn-label-desktop {
             display: none !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .btn-gold-nav span {
+            display: none !important;
+          }
+          .btn-gold-nav {
+            padding: 0.55rem 0.75rem !important;
           }
         }
       `}</style>
