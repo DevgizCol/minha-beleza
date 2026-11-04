@@ -16,15 +16,15 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
     <section
       id="santuario"
       style={{
-        padding: '5.5rem 0',
+        padding: '6rem 0',
         position: 'relative',
-        background: 'linear-gradient(180deg, rgba(8, 7, 12, 0) 0%, rgba(37, 11, 59, 0.2) 50%, rgba(8, 7, 12, 0) 100%)'
+        background: 'linear-gradient(180deg, rgba(9, 8, 12, 0) 0%, rgba(17, 15, 22, 0.4) 50%, rgba(9, 8, 12, 0) 100%)'
       }}
     >
       <div className="container">
         {/* Editorial Section Header */}
         <div style={{ textAlign: 'center', marginBottom: '3.5rem', maxWidth: '820px', marginInline: 'auto' }}>
-          <div className="badge-gold" style={{ marginBottom: '1rem' }}>
+          <div className="badge-gold" style={{ marginBottom: '1.2rem' }}>
             <Award size={13} color="var(--gold-warm)" />
             <span>Maestría Clínica & Filosofía del Santuario</span>
           </div>
@@ -32,9 +32,10 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
             style={{
               fontFamily: 'var(--font-serif)',
               fontSize: 'clamp(2rem, 3.8vw, 3.2rem)',
-              fontWeight: 700,
+              fontWeight: 600,
               lineHeight: 1.2,
-              marginBottom: '1rem'
+              marginBottom: '1rem',
+              letterSpacing: '0.01em'
             }}
           >
             La Esencia de <span className="text-gold-shimmer">{config.therapistName}</span>
@@ -42,35 +43,39 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
           <p
             style={{
               fontFamily: 'var(--font-editorial)',
-              fontSize: 'clamp(1.1rem, 2vw, 1.35rem)',
+              fontSize: 'clamp(1.15rem, 2vw, 1.38rem)',
               color: 'var(--text-secondary)',
-              lineHeight: 1.6
+              lineHeight: 1.65,
+              fontWeight: 300
             }}
           >
             Masoterapeuta clínica y cosmetóloga estética. Una visión holística donde la biomecánica corporal se fusiona con la desconexión mental absoluta en una suite privada en Santa Teresita, Laureles.
           </p>
         </div>
 
-        {/* Dual Spotlight Bento */}
+        {/* Dual Spotlight Bento (Neo-Kinpaku Surfaces) */}
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-            gap: '2rem',
-            marginBottom: '3.5rem'
+            gap: '2.5rem',
+            marginBottom: '4rem'
           }}
         >
           {/* Card 1: Rosangel Profile */}
           <div
-            className="luxury-glass"
             style={{
-              borderRadius: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-lg)',
               overflow: 'hidden',
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              boxShadow: 'var(--shadow-card)',
+              transition: 'var(--transition-smooth)'
             }}
           >
-            <div style={{ position: 'relative', height: '340px', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', height: '360px', overflow: 'hidden' }}>
               <img
                 src={getAssetUrl(config.portraitImage || 'images/rosangel-portrait.jpg')}
                 alt={config.therapistName}
@@ -79,14 +84,15 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  objectPosition: 'center 15%'
+                  objectPosition: 'center 15%',
+                  filter: 'contrast(1.02)'
                 }}
               />
               <div
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(180deg, rgba(8, 7, 12, 0.1) 0%, rgba(14, 12, 22, 0.95) 100%)'
+                  background: 'linear-gradient(180deg, rgba(9, 8, 12, 0.1) 0%, rgba(9, 8, 12, 0.95) 100%)'
                 }}
               />
               <div style={{ position: 'absolute', top: '1.2rem', left: '1.2rem' }}>
@@ -95,23 +101,23 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
                   <span>Maestría Certificada</span>
                 </span>
               </div>
-              <div style={{ position: 'absolute', bottom: '1.2rem', left: '1.5rem', right: '1.5rem' }}>
-                <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', fontWeight: 700, color: '#FFFFFF' }}>
+              <div style={{ position: 'absolute', bottom: '1.4rem', left: '1.6rem', right: '1.6rem' }}>
+                <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-pure)' }}>
                   {config.therapistName}
                 </div>
-                <div style={{ fontFamily: 'var(--font-editorial)', fontSize: '1rem', fontStyle: 'italic', color: 'var(--gold-light)' }}>
+                <div style={{ fontFamily: 'var(--font-editorial)', fontSize: '1.05rem', fontStyle: 'italic', color: 'var(--gold-light)' }}>
                   {config.therapistTitle}
                 </div>
               </div>
             </div>
 
-            <div style={{ padding: '1.8rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+            <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
               <p
                 style={{
                   fontSize: '0.94rem',
                   color: 'var(--text-secondary)',
-                  lineHeight: 1.7,
-                  marginBottom: '1.5rem'
+                  lineHeight: 1.72,
+                  marginBottom: '1.6rem'
                 }}
               >
                 {config.therapistBio}
@@ -120,8 +126,8 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
               <div
                 style={{
                   marginTop: 'auto',
-                  paddingTop: '1.2rem',
-                  borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                  paddingTop: '1.4rem',
+                  borderTop: '1px solid var(--border-subtle)',
                   display: 'grid',
                   gridTemplateColumns: 'repeat(3, 1fr)',
                   gap: '0.8rem',
@@ -129,19 +135,19 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
                 }}
               >
                 <div>
-                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.3rem', fontWeight: 700, color: 'var(--gold-light)' }}>
+                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', fontWeight: 700, color: 'var(--gold-light)' }}>
                     +8
                   </div>
                   <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Años Trayectoria</div>
                 </div>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.3rem', fontWeight: 700, color: 'var(--gold-light)' }}>
+                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', fontWeight: 700, color: 'var(--gold-light)' }}>
                     100%
                   </div>
                   <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Atención Privada</div>
                 </div>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.3rem', fontWeight: 700, color: 'var(--gold-light)' }}>
+                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', fontWeight: 700, color: 'var(--gold-light)' }}>
                     4.98★
                   </div>
                   <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Google Rating</div>
@@ -152,15 +158,18 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
 
           {/* Card 2: The Residence Sanctuary */}
           <div
-            className="luxury-glass"
             style={{
-              borderRadius: '24px',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-lg)',
               overflow: 'hidden',
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              boxShadow: 'var(--shadow-card)',
+              transition: 'var(--transition-smooth)'
             }}
           >
-            <div style={{ position: 'relative', height: '340px', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', height: '360px', overflow: 'hidden' }}>
               <img
                 src={getAssetUrl(config.studioImage || 'images/studio-sanctuary.jpg')}
                 alt={config.residenceTitle}
@@ -175,7 +184,7 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(180deg, rgba(8, 7, 12, 0.1) 0%, rgba(14, 12, 22, 0.95) 100%)'
+                  background: 'linear-gradient(180deg, rgba(9, 8, 12, 0.1) 0%, rgba(9, 8, 12, 0.95) 100%)'
                 }}
               />
               <div style={{ position: 'absolute', top: '1.2rem', left: '1.2rem' }}>
@@ -184,23 +193,23 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
                   <span>Suite Residencial</span>
                 </span>
               </div>
-              <div style={{ position: 'absolute', bottom: '1.2rem', left: '1.5rem', right: '1.5rem' }}>
-                <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', fontWeight: 700, color: '#FFFFFF' }}>
+              <div style={{ position: 'absolute', bottom: '1.4rem', left: '1.6rem', right: '1.6rem' }}>
+                <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-pure)' }}>
                   {config.residenceTitle}
                 </div>
-                <div style={{ fontFamily: 'var(--font-editorial)', fontSize: '1rem', fontStyle: 'italic', color: 'var(--gold-light)' }}>
+                <div style={{ fontFamily: 'var(--font-editorial)', fontSize: '1.05rem', fontStyle: 'italic', color: 'var(--gold-light)' }}>
                   {config.residenceSubtitle}
                 </div>
               </div>
             </div>
 
-            <div style={{ padding: '1.8rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
+            <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
               <p
                 style={{
                   fontSize: '0.94rem',
                   color: 'var(--text-secondary)',
-                  lineHeight: 1.7,
-                  marginBottom: '1.5rem'
+                  lineHeight: 1.72,
+                  marginBottom: '1.6rem'
                 }}
               >
                 {config.residenceContext}
@@ -212,7 +221,7 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
                   marginTop: 'auto',
                   display: 'grid',
                   gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '0.8rem'
+                  gap: '0.9rem'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: 'var(--text-primary)' }}>
@@ -220,7 +229,7 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
                   <span>Aromaterapia Botánica</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: 'var(--text-primary)' }}>
-                  <Music size={15} color="var(--purple-soft)" />
+                  <Music size={15} color="var(--gold-primary)" />
                   <span>Neuroacústica 432Hz</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: 'var(--text-primary)' }}>
@@ -228,7 +237,7 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
                   <span>Infusión & Café de Origen</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: 'var(--text-primary)' }}>
-                  <ShieldCheck size={15} color="#4ADE80" />
+                  <ShieldCheck size={15} color="#A3D4C8" />
                   <span>Lencería de Hilo Egipcio</span>
                 </div>
               </div>
@@ -238,18 +247,19 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
 
         {/* Contrast Experience Comparison: Traditional vs Sanctuary */}
         <div
-          className="luxury-glass"
           style={{
-            borderRadius: '24px',
-            padding: '2.2rem',
-            border: '1px solid rgba(212, 175, 55, 0.22)'
+            borderRadius: 'var(--radius-lg)',
+            padding: '2.5rem',
+            background: 'var(--bg-surface)',
+            border: '1px solid var(--border-medium)',
+            boxShadow: 'var(--shadow-lux)'
           }}
         >
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', color: '#FFFFFF', marginBottom: '0.4rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.4rem' }}>
+            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.65rem', color: 'var(--text-pure)', marginBottom: '0.4rem', fontWeight: 600 }}>
               La Diferencia de un Santuario Privado
             </h3>
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
+            <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)' }}>
               Por qué nuestros clientes eligen la suite residencial en lugar de las salas ruidosas convencionales.
             </p>
           </div>
@@ -258,7 +268,7 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '1.5rem'
+              gap: '1.8rem'
             }}
           >
             {/* Salón Tradicional */}
@@ -266,14 +276,14 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
               style={{
                 background: 'rgba(255, 255, 255, 0.02)',
                 border: '1px solid rgba(255, 255, 255, 0.06)',
-                borderRadius: '16px',
-                padding: '1.5rem'
+                borderRadius: 'var(--radius-md)',
+                padding: '1.6rem'
               }}
             >
-              <div style={{ fontWeight: 600, color: 'var(--text-muted)', marginBottom: '1rem', fontSize: '0.92rem' }}>
+              <div style={{ fontWeight: 600, color: 'var(--text-muted)', marginBottom: '1rem', fontSize: '0.88rem', letterSpacing: '0.04em' }}>
                 SALÓN COMERCIAL CONVENCIONAL
               </div>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.8rem', fontSize: '0.86rem', color: 'var(--text-muted)' }}>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.86rem', color: 'var(--text-muted)' }}>
                 <li>✕ Múltiples clientes y ruido cruzado de secadores</li>
                 <li>✕ Esperas imprevistas en recepción</li>
                 <li>✕ Terapeutas rotativos sin seguimiento personalizado</li>
@@ -284,31 +294,30 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
             {/* Minha Beleza Santuario */}
             <div
               style={{
-                background: 'rgba(212, 175, 55, 0.06)',
-                border: '1px solid rgba(212, 175, 55, 0.3)',
-                borderRadius: '16px',
-                padding: '1.5rem',
-                boxShadow: '0 0 25px rgba(212, 175, 55, 0.08)'
+                background: 'var(--gold-wash)',
+                border: '1px solid var(--border-medium)',
+                borderRadius: 'var(--radius-md)',
+                padding: '1.6rem'
               }}
             >
-              <div style={{ fontWeight: 700, color: 'var(--gold-light)', marginBottom: '1rem', fontSize: '0.92rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div style={{ fontWeight: 700, color: 'var(--gold-light)', marginBottom: '1rem', fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '6px', letterSpacing: '0.04em' }}>
                 <Sparkles size={15} />
                 <span>SANTUARIO PRIVADO MINHA BELEZA</span>
               </div>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.8rem', fontSize: '0.86rem', color: 'var(--text-primary)' }}>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.86rem', color: 'var(--text-primary)' }}>
+                <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <CheckCircle2 size={14} color="var(--gold-primary)" />
                   <span>Silencio absoluto y música neuroacústica curada</span>
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <CheckCircle2 size={14} color="var(--gold-primary)" />
                   <span>Puntualidad suiza: tu horario está reservado al 100%</span>
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <CheckCircle2 size={14} color="var(--gold-primary)" />
                   <span>Tratamiento impartido exclusivamente por Rosangel Benítez</span>
                 </li>
-                <li style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <CheckCircle2 size={14} color="var(--gold-primary)" />
                   <span>Pausa de relajación con infusión botánica tras la sesión</span>
                 </li>
@@ -316,16 +325,11 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
             </div>
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '2.2rem' }}>
+          <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
             <button
               onClick={onOpenBooking}
               className="btn-gold"
               style={{
-                padding: '0.85rem 2.2rem',
-                fontSize: '0.95rem',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
                 cursor: 'pointer'
               }}
             >

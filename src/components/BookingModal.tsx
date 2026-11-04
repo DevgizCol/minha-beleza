@@ -259,7 +259,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   width: '64px',
                   height: '64px',
                   borderRadius: '20px',
-                  background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(121, 40, 202, 0.3) 100%)',
+                  background: 'linear-gradient(135deg, rgba(216, 178, 110, 0.35) 0%, rgba(216, 178, 110, 0.08) 100%)',
                   border: '1px solid var(--gold-primary)',
                   display: 'flex',
                   alignItems: 'center',

@@ -114,17 +114,17 @@ export const ServicesCatalog: React.FC<ServicesCatalogProps> = ({
                   onClick={() => handleCategoryClick(cat)}
                   style={{
                     background: isSelected
-                      ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.28) 0%, rgba(121, 40, 202, 0.28) 100%)'
+                      ? 'var(--gold-primary)'
                       : 'rgba(255, 255, 255, 0.04)',
-                    border: isSelected ? '1px solid var(--gold-primary)' : '1px solid rgba(255, 255, 255, 0.08)',
-                    color: isSelected ? '#FFFFFF' : 'var(--text-secondary)',
-                    padding: '0.55rem 1.15rem',
-                    borderRadius: '9999px',
+                    border: isSelected ? '1px solid var(--gold-light)' : '1px solid var(--border-subtle)',
+                    color: isSelected ? '#09080C' : 'var(--text-secondary)',
+                    padding: '0.55rem 1.25rem',
+                    borderRadius: 'var(--radius-full)',
                     fontSize: '0.84rem',
                     fontWeight: isSelected ? 600 : 400,
                     cursor: 'pointer',
-                    transition: 'all 0.25s ease',
-                    boxShadow: isSelected ? '0 0 15px rgba(212, 175, 55, 0.2)' : 'none'
+                    transition: 'var(--transition-fast)',
+                    boxShadow: isSelected ? '0 4px 16px rgba(216, 178, 110, 0.25)' : 'none'
                   }}
                 >
                   {cat}
@@ -148,13 +148,13 @@ export const ServicesCatalog: React.FC<ServicesCatalogProps> = ({
               style={{
                 width: '100%',
                 padding: '0.68rem 1.2rem 0.68rem 2.8rem',
-                background: 'rgba(14, 12, 22, 0.85)',
-                border: '1px solid rgba(212, 175, 55, 0.2)',
-                borderRadius: '9999px',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border-medium)',
+                borderRadius: 'var(--radius-full)',
                 color: 'var(--text-primary)',
                 fontSize: '0.88rem',
                 outline: 'none',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)'
+                boxShadow: 'var(--shadow-subtle)'
               }}
             />
           </div>
