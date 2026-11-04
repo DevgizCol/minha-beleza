@@ -8,11 +8,14 @@ import { BookingModal } from './components/BookingModal';
 import { ClientPortalModal } from './components/ClientPortalModal';
 import { AdminDashboard } from './components/AdminDashboard';
 import { Footer } from './components/Footer';
+import { CookieBanner } from './components/CookieBanner';
+import { LegalModals, type LegalDocType } from './components/LegalModals';
 import { ToastContainer, type ToastMessage } from './components/Toast';
 import { api } from './services/api';
 import type { StudioConfig, ServiceItem, AppointmentItem } from './types';
 import type { CurrencyCode } from './utils/currency';
 import { spaAudio } from './utils/sound';
+import { getAssetUrl } from './utils/assets';
 import { MessageCircle, Calendar } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -29,6 +32,9 @@ export const App: React.FC = () => {
   const [preselectedService, setPreselectedService] = useState<ServiceItem | null>(null);
   const [isClientPortalOpen, setIsClientPortalOpen] = useState<boolean>(false);
   const [isAdminOpen, setIsAdminOpen] = useState<boolean>(false);
+
+  // Legal compliance modal state
+  const [legalDoc, setLegalDoc] = useState<LegalDocType>(null);
 
   // Toast notifications
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -128,7 +134,7 @@ export const App: React.FC = () => {
           }}
         >
           <img
-            src="/logo.jpeg"
+            src={getAssetUrl('logo.jpeg')}
             alt="Minha Beleza"
             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
           />
@@ -201,6 +207,7 @@ export const App: React.FC = () => {
         onOpenBooking={() => handleOpenBooking()}
         onOpenClientPortal={() => setIsClientPortalOpen(true)}
         onOpenAdmin={() => setIsAdminOpen(true)}
+        onOpenLegal={(doc) => setLegalDoc(doc)}
       />
 
       {/* Floating Concierge Action Buttons */}
@@ -271,6 +278,7 @@ export const App: React.FC = () => {
         config={config}
         currency={currency}
         onAppointmentCreated={handleAppointmentCreated}
+        onOpenLegal={(doc) => setLegalDoc(doc)}
       />
 
       {/* Client Portal Modal */}
@@ -296,6 +304,16 @@ export const App: React.FC = () => {
           addToast('success', 'Catálogo de tratamientos actualizado');
         }}
       />
+
+      {/* Legal & Compliance Modals */}
+      <LegalModals
+        isOpen={legalDoc !== null}
+        initialDoc={legalDoc}
+        onClose={() => setLegalDoc(null)}
+      />
+
+      {/* Luxury Cookie & Privacy Consent Banner */}
+      <CookieBanner />
     </div>
   );
 };

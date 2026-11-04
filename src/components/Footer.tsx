@@ -1,27 +1,33 @@
 import React from 'react';
-import { MapPin, Shield, Sparkles, MessageCircle } from 'lucide-react';
+import { MapPin, Shield, Sparkles, MessageCircle, Scale, Lock, FileText, Cookie } from 'lucide-react';
 import type { StudioConfig } from '../types';
+import { getAssetUrl } from '../utils/assets';
+import type { LegalDocType } from './LegalModals';
 
 interface FooterProps {
   config: StudioConfig;
   onOpenBooking: () => void;
   onOpenClientPortal: () => void;
   onOpenAdmin: () => void;
+  onOpenLegal: (doc: LegalDocType) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   config,
   onOpenBooking,
   onOpenClientPortal,
-  onOpenAdmin
+  onOpenAdmin,
+  onOpenLegal
 }) => {
-  const currentYear = new Date().getFullYear();
-
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleOpenCookieSettings = () => {
+    window.dispatchEvent(new CustomEvent('mb:open-cookie-settings'));
   };
 
   return (
@@ -38,14 +44,14 @@ export const Footer: React.FC<FooterProps> = ({
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
             gap: '3rem',
             marginBottom: '4rem'
           }}
         >
-          {/* Brand Presentation */}
+          {/* Brand Col */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.2rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '1.25rem' }}>
               <div
                 style={{
                   width: '52px',
@@ -60,7 +66,7 @@ export const Footer: React.FC<FooterProps> = ({
                 }}
               >
                 <img
-                  src="/logo.jpeg"
+                  src={getAssetUrl('logo.jpeg')}
                   alt="Minha Beleza"
                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
@@ -130,7 +136,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => scrollTo('servicios')}
                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: 0 }}
                 >
-                  Carta de Tratamientos
+                  Menú de Tratamientos
                 </button>
               </li>
               <li>
@@ -138,21 +144,21 @@ export const Footer: React.FC<FooterProps> = ({
                   onClick={() => scrollTo('ubicacion')}
                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: 0 }}
                 >
-                  Ubicación & Acceso a la Suite
+                  Ubicación & Acceso Privado
                 </button>
               </li>
               <li>
                 <button
                   onClick={onOpenClientPortal}
-                  style={{ background: 'none', border: 'none', color: 'var(--gold-warm)', cursor: 'pointer', padding: 0, fontWeight: 600 }}
+                  style={{ background: 'none', border: 'none', color: 'var(--gold-light)', cursor: 'pointer', padding: 0, fontWeight: 600 }}
                 >
-                  Portal de Huéspedes (Mis Citas)
+                  Gestionar Mi Cita (Portal Clientes)
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Direct Concierge Contact */}
+          {/* Legal & Compliance Section */}
           <div>
             <div
               style={{
@@ -164,39 +170,84 @@ export const Footer: React.FC<FooterProps> = ({
                 marginBottom: '1.2rem'
               }}
             >
-              Contacto & Concierge
+              Marco Legal & Privacidad
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem', fontSize: '0.88rem' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
-                <MapPin size={15} color="var(--gold-warm)" style={{ marginTop: '3px', flexShrink: 0 }} />
-                <span style={{ color: 'var(--text-secondary)' }}>
-                  Calle 34A #84-35, Santa Teresita, Laureles, Medellín
-                </span>
-              </div>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.86rem' }}>
+              <li>
+                <button
+                  onClick={() => onOpenLegal('terms')}
+                  style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <FileText size={14} color="var(--gold-primary)" />
+                  <span>Términos del Servicio & Cancelación</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onOpenLegal('privacy')}
+                  style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <Lock size={14} color="var(--gold-primary)" />
+                  <span>Tratamiento de Datos (Ley 1581)</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onOpenLegal('informed-consent')}
+                  style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <Scale size={14} color="var(--gold-primary)" />
+                  <span>Consentimiento Médico-Estético</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={handleOpenCookieSettings}
+                  style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <Cookie size={14} color="var(--gold-primary)" />
+                  <span>Configuración de Cookies</span>
+                </button>
+              </li>
+            </ul>
+          </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <MessageCircle size={15} color="#4ADE80" style={{ flexShrink: 0 }} />
+          {/* Contact Col */}
+          <div>
+            <div
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: '0.92rem',
+                letterSpacing: '0.08em',
+                color: 'var(--gold-light)',
+                textTransform: 'uppercase',
+                marginBottom: '1.2rem'
+              }}
+            >
+              Concierge Privado
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.88rem', color: 'var(--text-secondary)' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                <MapPin size={16} color="var(--gold-primary)" style={{ flexShrink: 0, marginTop: '3px' }} />
+                <span>{config.address}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <MessageCircle size={16} color="var(--gold-primary)" style={{ flexShrink: 0 }} />
                 <a
-                  href={`https://wa.me/${config.whatsapp}`}
+                  href={`https://wa.me/${config.whatsapp}?text=Hola%20Rosangel,%20deseo%20consultar%20sobre%20tus%20servicios%20en%20Minha%20Beleza`}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}
                 >
-                  WhatsApp: {config.phone}
+                  {config.phone}
                 </a>
               </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--purple-soft)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
-                </svg>
+              <div>
                 <a
-                  href="https://instagram.com/minhabelezaspa411"
+                  href={`https://instagram.com/${config.instagram.replace('@', '')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}
+                  style={{ color: 'var(--gold-light)', textDecoration: 'none', fontWeight: 500 }}
                 >
                   {config.instagram}
                 </a>
@@ -218,23 +269,51 @@ export const Footer: React.FC<FooterProps> = ({
         {/* Bottom Sub-footer */}
         <div
           style={{
-            borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
             paddingTop: '2rem',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             flexWrap: 'wrap',
             gap: '1rem',
-            fontSize: '0.78rem',
+            fontSize: '0.82rem',
             color: 'var(--text-muted)'
           }}
         >
-          <div>
-            © {currentYear} Minha Beleza por {config.therapistName}. Todos los derechos reservados.
+          {/* Desarrollado por DevGiz with link */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <span>Desarrollado por</span>
+            <a
+              href="https://devgiz.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'var(--gold-light)',
+                fontWeight: 700,
+                textDecoration: 'none',
+                borderBottom: '1px solid rgba(212, 175, 55, 0.5)',
+                paddingBottom: '2px',
+                letterSpacing: '0.04em',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#FFFFFF';
+                e.currentTarget.style.borderBottomColor = '#FFFFFF';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--gold-light)';
+                e.currentTarget.style.borderBottomColor = 'rgba(212, 175, 55, 0.5)';
+              }}
+            >
+              DevGiz ↗
+            </a>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-            <span>Protocolos de Bioseguridad Clínica</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', flexWrap: 'wrap' }}>
+            <span>Protocolos de Bioseguridad Clínica Acreditada</span>
             <span>•</span>
             <button
               onClick={onOpenAdmin}

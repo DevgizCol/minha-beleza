@@ -72,6 +72,28 @@ check('Validación SEO & Schema.org DaySpa JSON-LD', () => {
   }
 });
 
+// 5. Verificación de Blindaje Legal & Atribución DevGiz
+check('Blindaje Jurídico (Cookies, Habeas Data Ley 1581 & DevGiz Attribution)', () => {
+  const requiredLegal = [
+    'src/components/CookieBanner.tsx',
+    'src/components/LegalModals.tsx',
+    'src/utils/assets.ts'
+  ];
+  for (const f of requiredLegal) {
+    if (!fs.existsSync(path.join(rootDir, f))) {
+      throw new Error(`Falta el componente de blindaje legal indispensable: ${f}`);
+    }
+  }
+
+  const footer = fs.readFileSync(path.join(rootDir, 'src/components/Footer.tsx'), 'utf-8');
+  if (!footer.includes('devgiz.vercel.app')) {
+    throw new Error('El Footer no contiene el enlace oficial de autoría a https://devgiz.vercel.app/');
+  }
+  if (!footer.includes('Desarrollado por')) {
+    throw new Error('El Footer no contiene la atribución "Desarrollado por DevGiz" requerida');
+  }
+});
+
 console.log('\n-----------------------------------------------------');
 if (failed) {
   console.log('🚨 AUDITORÍA CON ERRORES: Por favor revisa los puntos señalados.');

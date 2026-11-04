@@ -64,6 +64,13 @@ test.describe('Minha Beleza — Experiencia Digital Ultra-Premium', () => {
       await page.fill('input[placeholder="Ej. Isabella Gómez"]', 'Valentina Restrepo');
       await page.fill('input[placeholder="Ej. +57 300 123 4567"]', '+573109876543');
 
+      // Marcar consentimientos legales obligatorios
+      const checkboxes = page.locator('input[type="checkbox"]');
+      const count = await checkboxes.count();
+      for (let i = 0; i < count; i++) {
+        await checkboxes.nth(i).check();
+      }
+
       // Confirmar reserva
       const confirmBtn = page.locator('button:has-text("Confirmar Reserva en Suite")');
       await confirmBtn.click();
@@ -71,6 +78,7 @@ test.describe('Minha Beleza — Experiencia Digital Ultra-Premium', () => {
       // Verificar Luxury Boarding Pass
       await expect(page.locator('text=Tu Santuario te Aguarda')).toBeVisible();
       await expect(page.locator('text=MINHA BELEZA • SUITE PASS')).toBeVisible();
+      await expect(page.locator('text=Auditoría Legal Certificada')).toBeVisible();
     }
   });
 
@@ -82,4 +90,12 @@ test.describe('Minha Beleza — Experiencia Digital Ultra-Premium', () => {
     await expect(clientModal).toBeVisible();
     await expect(page.locator('text=Gestión de Citas & Huéspedes')).toBeVisible();
   });
+
+  test('6. Verificación de Banner de Cookies y Atribución DevGiz', async ({ page }) => {
+    // Verificar atribución de autoría oficial a DevGiz
+    const devgizLink = page.locator('a[href="https://devgiz.vercel.app/"]');
+    await expect(devgizLink).toBeVisible();
+    await expect(devgizLink).toContainText('DevGiz');
+  });
 });
+

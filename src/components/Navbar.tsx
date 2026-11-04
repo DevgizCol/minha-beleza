@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Search, Shield, Menu, X, MapPin, Volume2, VolumeX, Globe } from 'lucide-react';
 import type { StudioConfig } from '../types';
 import type { CurrencyCode } from '../utils/currency';
+import { getAssetUrl } from '../utils/assets';
 
 interface NavbarProps {
   config: StudioConfig;
@@ -177,7 +178,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
             >
               <img
-                src="/logo.jpeg"
+                src={getAssetUrl('logo.jpeg')}
                 alt="Minha Beleza"
                 style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />

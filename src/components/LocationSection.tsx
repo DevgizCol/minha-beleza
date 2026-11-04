@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Navigation, Compass, Copy, Check, Clock, ShieldCheck, Car } from 'lucide-react';
 import type { StudioConfig } from '../types';
 import { spaAudio } from '../utils/sound';
+import { getAssetUrl } from '../utils/assets';
 
 interface LocationSectionProps {
   config: StudioConfig;
@@ -218,7 +219,7 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ config }) => {
           >
             <div style={{ height: '100%', minHeight: '320px', position: 'relative' }}>
               <img
-                src="/images/studio-sanctuary.jpg"
+                src={getAssetUrl('images/studio-sanctuary.jpg')}
                 alt="Atmósfera de la Suite Privada en Laureles"
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}

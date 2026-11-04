@@ -1,6 +1,7 @@
 import React from 'react';
 import { Calendar, Sparkles, ShieldCheck, ArrowRight, Star, Clock, UserCheck } from 'lucide-react';
 import type { StudioConfig } from '../types';
+import { getAssetUrl } from '../utils/assets';
 
 interface HeroProps {
   config: StudioConfig;
@@ -90,7 +91,7 @@ export const Hero: React.FC<HeroProps> = ({ config, onOpenBooking, onExploreServ
               }}
             >
               <img
-                src="/logo.jpeg"
+                src={getAssetUrl('logo.jpeg')}
                 alt="Minha Beleza - Rosangel Benítez"
                 style={{
                   width: '100%',

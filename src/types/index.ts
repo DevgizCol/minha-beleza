@@ -31,6 +31,15 @@ export interface ServiceItem {
 
 export type AppointmentStatus = 'confirmed' | 'pending' | 'completed' | 'cancelled';
 
+export interface LegalComplianceRecord {
+  consentId: string;
+  timestamp: string;
+  habeasDataAccepted: boolean;
+  informedConsentAccepted: boolean;
+  termsVersion: string;
+  userAgent?: string;
+}
+
 export interface AppointmentItem {
   id: string; // e.g. MB-8419
   clientName: string;
@@ -45,6 +54,7 @@ export interface AppointmentItem {
   notes?: string;
   adminNotes?: string;
   status: AppointmentStatus;
+  legalCompliance?: LegalComplianceRecord;
   createdAt: string;
   updatedAt: string;
 }

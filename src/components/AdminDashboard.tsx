@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, Shield, Calendar, CheckCircle, 
-  Trash2, Plus, Edit, Save, MessageSquare, Home, Layers, BarChart3, RefreshCw, Phone
+  Trash2, Plus, Edit, Save, MessageSquare, Home, Layers, BarChart3, RefreshCw, Phone, ShieldCheck
 } from 'lucide-react';
 
 import { api } from '../services/api';
 import type { AppointmentItem, ServiceItem, StudioConfig, StatsOverview, AppointmentStatus } from '../types';
+import { getAssetUrl } from '../utils/assets';
 
 interface AdminDashboardProps {
   isOpen: boolean;
@@ -49,7 +50,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     category: 'Masoterapia',
     duration: 60,
     price: 130000,
-    image: '/images/massage-therapy.jpg',
+    image: getAssetUrl('images/massage-therapy.jpg'),
     description: '',
     benefits: ['Relajación integral', 'Alivio de tensiones']
   });
@@ -165,7 +166,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           price: Number(serviceFormData.price) || 120000,
           active: true,
           featured: false,
-          image: serviceFormData.image || '/images/massage-therapy.jpg',
+          image: serviceFormData.image || getAssetUrl('images/massage-therapy.jpg'),
           description: serviceFormData.description || '',
           benefits: Array.isArray(serviceFormData.benefits) ? serviceFormData.benefits : []
         });
@@ -635,6 +636,16 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             </div>
                           )}
 
+                          {/* Legal Compliance Audit Trail */}
+                          {app.legalCompliance && (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.74rem', color: '#4ade80' }}>
+                              <ShieldCheck size={13} />
+                              <span>
+                                Auditoría Legal: Consentimiento Médico & Habeas Data Aprobado (Ref: {app.legalCompliance.consentId})
+                              </span>
+                            </div>
+                          )}
+
                           {/* Rosangel's clinical / client modification notes */}
                           <div
                             style={{
@@ -729,7 +740,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           category: 'Masoterapia',
                           duration: 60,
                           price: 130000,
-                          image: '/images/massage-therapy.jpg',
+                          image: getAssetUrl('images/massage-therapy.jpg'),
                           description: '',
                           benefits: ['Relajación y alivio']
                         });

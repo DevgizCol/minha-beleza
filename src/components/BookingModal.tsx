@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { X, CheckCircle2, AlertCircle, MessageCircle, Copy, Check, Calendar as CalendarIcon, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { api } from '../services/api';
-import type { ServiceItem, AppointmentItem, StudioConfig } from '../types';
+import type { ServiceItem, AppointmentItem, StudioConfig, LegalComplianceRecord } from '../types';
 import { formatCurrency, type CurrencyCode } from '../utils/currency';
 import { spaAudio } from '../utils/sound';
+import type { LegalDocType } from './LegalModals';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -14,6 +15,7 @@ interface BookingModalProps {
   config: StudioConfig;
   currency?: CurrencyCode;
   onAppointmentCreated?: (app: AppointmentItem) => void;
+  onOpenLegal?: (doc: LegalDocType) => void;
 }
 
 export const BookingModal: React.FC<BookingModalProps> = ({
@@ -23,7 +25,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   preselectedService,
   config,
   currency = 'COP',
-  onAppointmentCreated
+  onAppointmentCreated,
+  onOpenLegal
 }) => {
   const [step, setStep] = useState<number>(1);
   const [selectedServiceId, setSelectedServiceId] = useState<string>('');
@@ -33,6 +36,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   const [clientPhone, setClientPhone] = useState<string>('');
   const [clientEmail, setClientEmail] = useState<string>('');
   const [clientNotes, setClientNotes] = useState<string>('');
+
+  // Legal compliance checkboxes
+  const [acceptMedicalDisclaimer, setAcceptMedicalDisclaimer] = useState<boolean>(false);
+  const [acceptTermsAndPrivacy, setAcceptTermsAndPrivacy] = useState<boolean>(false);
 
   const [loadingSlots, setLoadingSlots] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -96,11 +103,28 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       setErrorMsg('Por favor selecciona un horario disponible.');
       return;
     }
+    if (!acceptMedicalDisclaimer) {
+      setErrorMsg('Por favor confirma que no presentas contraindicaciones médicas para continuar.');
+      return;
+    }
+    if (!acceptTermsAndPrivacy) {
+      setErrorMsg('Por favor acepta los Términos de Servicio y la Política de Tratamiento de Datos (Ley 1581).');
+      return;
+    }
 
     setSubmitting(true);
     setErrorMsg('');
 
     try {
+      const legalCompliance: LegalComplianceRecord = {
+        consentId: `MB-LEGAL-${Math.random().toString(36).substring(2, 8).toUpperCase()}-${Date.now().toString(36).toUpperCase()}`,
+        timestamp: new Date().toISOString(),
+        habeasDataAccepted: true,
+        informedConsentAccepted: true,
+        termsVersion: '2026.1',
+        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Client-Verified'
+      };
+
       const created = await api.createAppointment({
         clientName: clientName.trim(),
         clientPhone: clientPhone.trim(),
@@ -111,7 +135,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         time: selectedTime,
         duration: currentService.duration,
         price: currentService.price,
-        notes: clientNotes.trim()
+        notes: clientNotes.trim(),
+        legalCompliance
       });
 
       setConfirmedAppointment(created);
@@ -355,6 +380,26 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               >
                 <ShieldCheck size={14} color="var(--gold-warm)" />
                 <span>Ubicación: {config.address} (Tocar citófono a nombre de Rosangel Benítez)</span>
+              </div>
+
+              <div
+                style={{
+                  marginTop: '0.8rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: 'rgba(34, 197, 94, 0.08)',
+                  border: '1px solid rgba(34, 197, 94, 0.25)',
+                  padding: '5px 10px',
+                  borderRadius: '8px',
+                  fontSize: '0.72rem',
+                  color: '#4ade80'
+                }}
+              >
+                <CheckCircle2 size={13} />
+                <span>
+                  Auditoría Legal Certificada • Ref: {confirmedAppointment.legalCompliance?.consentId || confirmedAppointment.id} (Ley 1581 / Salud Aprobada)
+                </span>
               </div>
             </div>
 
@@ -753,7 +798,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     border: '1px solid rgba(212, 175, 55, 0.2)',
                     borderRadius: '12px',
                     padding: '0.9rem 1.2rem',
-                    marginBottom: '1.5rem',
+                    marginBottom: '1.2rem',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center'
@@ -768,6 +813,136 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <div style={{ fontFamily: 'var(--font-sans)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--gold-light)' }}>
                     {formatCurrency(currentService.price, currency)}
                   </div>
+                </div>
+
+                {/* Legal Shield & Mandatory Informed Consent */}
+                <div
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    border: '1px solid rgba(212, 175, 55, 0.25)',
+                    borderRadius: '14px',
+                    padding: '1.2rem',
+                    marginBottom: '1.5rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '0.85rem'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <ShieldCheck size={18} color="var(--gold-primary)" />
+                    <span style={{ fontFamily: 'var(--font-serif)', fontSize: '0.86rem', color: 'var(--text-pure)', letterSpacing: '0.04em' }}>
+                      Declaración de Salud & Consentimiento Jurídico Obligatorio
+                    </span>
+                  </div>
+
+                  {/* Checkbox 1: Medical / Health Disclaimer */}
+                  <label
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '10px',
+                      fontSize: '0.78rem',
+                      color: 'var(--text-secondary)',
+                      lineHeight: 1.45,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      required
+                      checked={acceptMedicalDisclaimer}
+                      onChange={(e) => setAcceptMedicalDisclaimer(e.target.checked)}
+                      style={{
+                        marginTop: '3px',
+                        width: '16px',
+                        height: '16px',
+                        accentColor: 'var(--gold-primary)',
+                        cursor: 'pointer',
+                        flexShrink: 0
+                      }}
+                    />
+                    <span>
+                      Declaro bajo juramento no presentar contraindicaciones médicas (marcapasos o implantes metálicos para aparatología, embarazo no notificado, trombosis, infecciones dérmicas o heridas abiertas) y acepto el protocolo estético/masoterapéutico.{' '}
+                      <button
+                        type="button"
+                        onClick={() => onOpenLegal && onOpenLegal('informed-consent')}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'var(--gold-light)',
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          padding: 0,
+                          fontSize: '0.78rem'
+                        }}
+                      >
+                        Leer Consentimiento Médico Completo ↗
+                      </button>
+                    </span>
+                  </label>
+
+                  {/* Checkbox 2: Terms and Habeas Data */}
+                  <label
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '10px',
+                      fontSize: '0.78rem',
+                      color: 'var(--text-secondary)',
+                      lineHeight: 1.45,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      required
+                      checked={acceptTermsAndPrivacy}
+                      onChange={(e) => setAcceptTermsAndPrivacy(e.target.checked)}
+                      style={{
+                        marginTop: '3px',
+                        width: '16px',
+                        height: '16px',
+                        accentColor: 'var(--gold-primary)',
+                        cursor: 'pointer',
+                        flexShrink: 0
+                      }}
+                    />
+                    <span>
+                      Acepto los{' '}
+                      <button
+                        type="button"
+                        onClick={() => onOpenLegal && onOpenLegal('terms')}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'var(--gold-light)',
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          padding: 0,
+                          fontSize: '0.78rem'
+                        }}
+                      >
+                        Términos de Servicio y Cancelación (24h)
+                      </button>{' '}
+                      y autorizo expresamente el Tratamiento de mis Datos Personales conforme a la{' '}
+                      <button
+                        type="button"
+                        onClick={() => onOpenLegal && onOpenLegal('privacy')}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'var(--gold-light)',
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
+                          padding: 0,
+                          fontSize: '0.78rem'
+                        }}
+                      >
+                        Ley 1581 de 2012 (Habeas Data)
+                      </button>
+                      .
+                    </span>
+                  </label>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

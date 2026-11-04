@@ -3,6 +3,7 @@ import { Clock, Calendar, Sparkles, Info, X, Search, CheckCircle2 } from 'lucide
 import type { ServiceItem } from '../types';
 import { formatCurrency, type CurrencyCode } from '../utils/currency';
 import { spaAudio } from '../utils/sound';
+import { getAssetUrl } from '../utils/assets';
 
 interface ServicesCatalogProps {
   services: ServiceItem[];
@@ -182,7 +183,7 @@ export const ServicesCatalog: React.FC<ServicesCatalogProps> = ({
               {/* Card Image Banner with Subtle Gradient Overlay */}
               <div style={{ height: '190px', position: 'relative', overflow: 'hidden' }}>
                 <img
-                  src={service.image || '/images/massage-therapy.jpg'}
+                  src={getAssetUrl(service.image || 'images/massage-therapy.jpg')}
                   alt={service.name}
                   loading="lazy"
                   style={{
@@ -466,7 +467,7 @@ export const ServicesCatalog: React.FC<ServicesCatalogProps> = ({
             {/* Header Image */}
             <div style={{ height: '220px', position: 'relative' }}>
               <img
-                src={activeDetailService.image || '/images/massage-therapy.jpg'}
+                src={getAssetUrl(activeDetailService.image || 'images/massage-therapy.jpg')}
                 alt={activeDetailService.name}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />

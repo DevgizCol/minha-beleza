@@ -1,10 +1,14 @@
-import type { StudioConfig, ServiceItem, AppointmentItem, StatsOverview } from '../types';
+import type { StudioConfig, ServiceItem, AppointmentItem, StatsOverview, LegalComplianceRecord } from '../types';
 
 const STORAGE_KEYS = {
   CONFIG: 'minha_beleza_config',
   SERVICES: 'minha_beleza_services',
   APPOINTMENTS: 'minha_beleza_appointments'
 };
+
+const canUseBackend = import.meta.env.DEV &&
+  typeof window !== 'undefined' &&
+  ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
 // Fallback initial data in case server is unreachable
 const INITIAL_CONFIG: StudioConfig = {
@@ -426,120 +430,159 @@ const INITIAL_SERVICES: ServiceItem[] = [
 export const api = {
   // CONFIG
   async getConfig(): Promise<StudioConfig> {
-    try {
-      const res = await fetch('/api/config');
-      if (!res.ok) throw new Error('API unavailable');
-      const data = await res.json();
-      localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(data));
-      return data;
-    } catch {
-      const cached = localStorage.getItem(STORAGE_KEYS.CONFIG);
-      return cached ? JSON.parse(cached) : INITIAL_CONFIG;
+    if (canUseBackend) {
+      try {
+        const res = await fetch('/api/config');
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(data));
+          return data;
+        }
+      } catch {
+        // Fallback
+      }
     }
+    const cached = localStorage.getItem(STORAGE_KEYS.CONFIG);
+    if (cached) {
+      try {
+        return JSON.parse(cached);
+      } catch {
+        // Fallback
+      }
+    }
+    localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(INITIAL_CONFIG));
+    return INITIAL_CONFIG;
   },
 
   async updateConfig(config: Partial<StudioConfig>): Promise<StudioConfig> {
-    try {
-      const res = await fetch('/api/config', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(config)
-      });
-      if (!res.ok) throw new Error('API error');
-      const data = await res.json();
-      localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(data));
-      return data;
-    } catch {
-      const current = await this.getConfig();
-      const updated = { ...current, ...config };
-      localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(updated));
-      return updated;
+    if (canUseBackend) {
+      try {
+        const res = await fetch('/api/config', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(config)
+        });
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(data));
+          return data;
+        }
+      } catch {
+        // Fallback
+      }
     }
+    const current = await this.getConfig();
+    const updated = { ...current, ...config };
+    localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(updated));
+    return updated;
   },
 
   // SERVICES
   async getServices(): Promise<ServiceItem[]> {
-    try {
-      const res = await fetch('/api/services');
-      if (!res.ok) throw new Error('API unavailable');
-      const data = await res.json();
-      localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(data));
-      return data;
-    } catch {
-      const cached = localStorage.getItem(STORAGE_KEYS.SERVICES);
-      return cached ? JSON.parse(cached) : INITIAL_SERVICES;
+    if (canUseBackend) {
+      try {
+        const res = await fetch('/api/services');
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(data));
+          return data;
+        }
+      } catch {
+        // Fallback
+      }
     }
+    const cached = localStorage.getItem(STORAGE_KEYS.SERVICES);
+    if (cached) {
+      try {
+        return JSON.parse(cached);
+      } catch {
+        // Fallback
+      }
+    }
+    localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(INITIAL_SERVICES));
+    return INITIAL_SERVICES;
   },
 
   async createService(service: Omit<ServiceItem, 'id'>): Promise<ServiceItem> {
-    try {
-      const res = await fetch('/api/services', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(service)
-      });
-      if (!res.ok) throw new Error('Error al crear servicio');
-      return await res.json();
-    } catch {
-      const services = await this.getServices();
-      const newService: ServiceItem = {
-        ...service,
-        id: `srv-${Date.now()}`
-      };
-      services.push(newService);
-      localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(services));
-      return newService;
+    if (canUseBackend) {
+      try {
+        const res = await fetch('/api/services', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(service)
+        });
+        if (res.ok) return await res.json();
+      } catch {
+        // Fallback
+      }
     }
+    const services = await this.getServices();
+    const newService: ServiceItem = {
+      ...service,
+      id: `srv-${Date.now()}`
+    };
+    services.push(newService);
+    localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(services));
+    return newService;
   },
 
   async updateService(id: string, updates: Partial<ServiceItem>): Promise<ServiceItem> {
-    try {
-      const res = await fetch(`/api/services/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updates)
-      });
-      if (!res.ok) throw new Error('Error al actualizar servicio');
-      return await res.json();
-    } catch {
-      const services = await this.getServices();
-      const idx = services.findIndex(s => s.id === id);
-      if (idx !== -1) {
-        services[idx] = { ...services[idx], ...updates };
-        localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(services));
-        return services[idx];
+    if (canUseBackend) {
+      try {
+        const res = await fetch(`/api/services/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updates)
+        });
+        if (res.ok) return await res.json();
+      } catch {
+        // Fallback
       }
-      throw new Error('Servicio no encontrado');
     }
+    const services = await this.getServices();
+    const idx = services.findIndex(s => s.id === id);
+    if (idx !== -1) {
+      services[idx] = { ...services[idx], ...updates };
+      localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(services));
+      return services[idx];
+    }
+    throw new Error('Servicio no encontrado');
   },
 
   async deleteService(id: string): Promise<void> {
-    try {
-      await fetch(`/api/services/${id}`, { method: 'DELETE' });
-    } catch {
-      const services = await this.getServices();
-      const filtered = services.filter(s => s.id !== id);
-      localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(filtered));
+    if (canUseBackend) {
+      try {
+        await fetch(`/api/services/${id}`, { method: 'DELETE' });
+      } catch {
+        // Fallback
+      }
     }
+    const services = await this.getServices();
+    const filtered = services.filter(s => s.id !== id);
+    localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(filtered));
   },
 
   // APPOINTMENTS
   async getAppointments(date?: string): Promise<AppointmentItem[]> {
-    try {
-      const url = date ? `/api/appointments?date=${encodeURIComponent(date)}` : '/api/appointments';
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('API unavailable');
-      const data = await res.json();
-      localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(data));
-      return data;
-    } catch {
-      const cached = localStorage.getItem(STORAGE_KEYS.APPOINTMENTS);
-      let list: AppointmentItem[] = cached ? JSON.parse(cached) : [];
-      if (date) {
-        list = list.filter(a => a.date === date && a.status !== 'cancelled');
+    if (canUseBackend) {
+      try {
+        const url = date ? `/api/appointments?date=${encodeURIComponent(date)}` : '/api/appointments';
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(data));
+          return data;
+        }
+      } catch {
+        // Fallback
       }
-      return list;
     }
+    const cached = localStorage.getItem(STORAGE_KEYS.APPOINTMENTS);
+    let list: AppointmentItem[] = cached ? JSON.parse(cached) : [];
+    if (date) {
+      list = list.filter(a => a.date === date && a.status !== 'cancelled');
+    }
+    return list;
   },
 
   async createAppointment(data: {
@@ -553,120 +596,124 @@ export const api = {
     duration: number;
     price: number;
     notes?: string;
+    legalCompliance?: LegalComplianceRecord;
   }): Promise<AppointmentItem> {
-    try {
-      const res = await fetch('/api/appointments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Error al agendar la cita');
+    if (canUseBackend) {
+      try {
+        const res = await fetch('/api/appointments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (res.ok) {
+          return await res.json();
+        }
+      } catch {
+        // Fallback
       }
-      return await res.json();
-    } catch (err: any) {
-      if (err.message && err.message.includes('disponible')) {
-        throw err;
-      }
-      // Fallback
-      const appointments = await this.getAppointments();
-      const conflict = appointments.some(
-        a => a.date === data.date && a.time === data.time && a.status !== 'cancelled'
-      );
-      if (conflict) {
-        throw new Error('El horario seleccionado ya no está disponible.');
-      }
-      const randomCode = `MB-${Math.floor(1000 + Math.random() * 9000)}`;
-      const newAppointment: AppointmentItem = {
-        id: randomCode,
-        ...data,
-        status: 'confirmed',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      appointments.unshift(newAppointment);
-      localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(appointments));
-      return newAppointment;
     }
+
+    const appointments = await this.getAppointments();
+    const conflict = appointments.some(
+      a => a.date === data.date && a.time === data.time && a.status !== 'cancelled'
+    );
+    if (conflict) {
+      throw new Error('El horario seleccionado ya no está disponible.');
+    }
+    const randomCode = `MB-${Math.floor(1000 + Math.random() * 9000)}`;
+    const newAppointment: AppointmentItem = {
+      id: randomCode,
+      ...data,
+      status: 'confirmed',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    appointments.unshift(newAppointment);
+    localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(appointments));
+    return newAppointment;
   },
 
   async searchAppointments(query: string): Promise<AppointmentItem[]> {
-    try {
-      const res = await fetch(`/api/appointments/search?q=${encodeURIComponent(query)}`);
-      if (!res.ok) throw new Error('Cita no encontrada');
-      return await res.json();
-    } catch {
-      const appointments = await this.getAppointments();
-      const cleanQ = query.trim().toLowerCase();
-      const cleanDigits = cleanQ.replace(/\D/g, '');
-      return appointments.filter(a => {
-        const idMatch = a.id.toLowerCase() === cleanQ;
-        const phoneMatch = cleanDigits.length >= 6 && a.clientPhone.replace(/\D/g, '').includes(cleanDigits);
-        const emailMatch = a.clientEmail?.toLowerCase() === cleanQ;
-        return idMatch || phoneMatch || emailMatch;
-      });
+    if (canUseBackend) {
+      try {
+        const res = await fetch(`/api/appointments/search?q=${encodeURIComponent(query)}`);
+        if (res.ok) return await res.json();
+      } catch {
+        // Fallback
+      }
     }
+    const appointments = await this.getAppointments();
+    const cleanQ = query.trim().toLowerCase();
+    const cleanDigits = cleanQ.replace(/\D/g, '');
+    return appointments.filter(a => {
+      const idMatch = a.id.toLowerCase() === cleanQ;
+      const phoneMatch = cleanDigits.length >= 6 && a.clientPhone.replace(/\D/g, '').includes(cleanDigits);
+      const emailMatch = a.clientEmail?.toLowerCase() === cleanQ;
+      return idMatch || phoneMatch || emailMatch;
+    });
   },
 
   async updateAppointment(id: string, updates: Partial<AppointmentItem>): Promise<AppointmentItem> {
-    try {
-      const res = await fetch(`/api/appointments/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updates)
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Error al actualizar cita');
+    if (canUseBackend) {
+      try {
+        const res = await fetch(`/api/appointments/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updates)
+        });
+        if (res.ok) return await res.json();
+      } catch {
+        // Fallback
       }
-      return await res.json();
-    } catch (err: any) {
-      const appointments = await this.getAppointments();
-      const idx = appointments.findIndex(a => a.id.toLowerCase() === id.toLowerCase());
-      if (idx !== -1) {
-        appointments[idx] = { ...appointments[idx], ...updates, updatedAt: new Date().toISOString() };
-        localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(appointments));
-        return appointments[idx];
-      }
-      throw err;
     }
+    const appointments = await this.getAppointments();
+    const idx = appointments.findIndex(a => a.id.toLowerCase() === id.toLowerCase());
+    if (idx !== -1) {
+      appointments[idx] = { ...appointments[idx], ...updates, updatedAt: new Date().toISOString() };
+      localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(appointments));
+      return appointments[idx];
+    }
+    throw new Error('Cita no encontrada');
   },
 
   async cancelAppointment(id: string): Promise<void> {
-    try {
-      const res = await fetch(`/api/appointments/${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Error al cancelar cita');
-    } catch {
-      await this.updateAppointment(id, { status: 'cancelled' });
+    if (canUseBackend) {
+      try {
+        await fetch(`/api/appointments/${id}`, { method: 'DELETE' });
+      } catch {
+        // Fallback
+      }
     }
+    await this.updateAppointment(id, { status: 'cancelled' });
   },
 
   // STATS
   async getStats(): Promise<StatsOverview> {
-    try {
-      const res = await fetch('/api/stats');
-      if (!res.ok) throw new Error('API stats error');
-      return await res.json();
-    } catch {
-      const appointments = await this.getAppointments();
-      const services = await this.getServices();
-      const totalAppointments = appointments.length;
-      const activeAppointments = appointments.filter(a => a.status === 'confirmed').length;
-      const completedAppointments = appointments.filter(a => a.status === 'completed').length;
-      const cancelledAppointments = appointments.filter(a => a.status === 'cancelled').length;
-      const estimatedRevenue = appointments
-        .filter(a => a.status === 'completed' || a.status === 'confirmed')
-        .reduce((sum, a) => sum + (a.price || 0), 0);
-
-      return {
-        totalAppointments,
-        activeAppointments,
-        completedAppointments,
-        cancelledAppointments,
-        estimatedRevenue,
-        servicesCount: services.length
-      };
+    if (canUseBackend) {
+      try {
+        const res = await fetch('/api/stats');
+        if (res.ok) return await res.json();
+      } catch {
+        // Fallback
+      }
     }
+    const appointments = await this.getAppointments();
+    const services = await this.getServices();
+    const totalAppointments = appointments.length;
+    const activeAppointments = appointments.filter(a => a.status === 'confirmed').length;
+    const completedAppointments = appointments.filter(a => a.status === 'completed').length;
+    const cancelledAppointments = appointments.filter(a => a.status === 'cancelled').length;
+    const estimatedRevenue = appointments
+      .filter(a => a.status === 'completed' || a.status === 'confirmed')
+      .reduce((sum, a) => sum + (a.price || 0), 0);
+
+    return {
+      totalAppointments,
+      activeAppointments,
+      completedAppointments,
+      cancelledAppointments,
+      estimatedRevenue,
+      servicesCount: services.length
+    };
   }
 };

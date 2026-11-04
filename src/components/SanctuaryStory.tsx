@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles, Award, Music, Coffee, Wind, ShieldCheck, CheckCircle2, Calendar } from 'lucide-react';
 import type { StudioConfig } from '../types';
+import { getAssetUrl } from '../utils/assets';
 
 interface SanctuaryStoryProps {
   config: StudioConfig;
@@ -71,7 +72,7 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
           >
             <div style={{ position: 'relative', height: '340px', overflow: 'hidden' }}>
               <img
-                src={config.portraitImage || '/images/rosangel-portrait.jpg'}
+                src={getAssetUrl(config.portraitImage || 'images/rosangel-portrait.jpg')}
                 alt={config.therapistName}
                 loading="lazy"
                 style={{
@@ -161,7 +162,7 @@ export const SanctuaryStory: React.FC<SanctuaryStoryProps> = ({
           >
             <div style={{ position: 'relative', height: '340px', overflow: 'hidden' }}>
               <img
-                src={config.studioImage || '/images/studio-sanctuary.jpg'}
+                src={getAssetUrl(config.studioImage || 'images/studio-sanctuary.jpg')}
                 alt={config.residenceTitle}
                 loading="lazy"
                 style={{
