@@ -197,7 +197,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 1000,
+        zIndex: 9995,
         background: 'rgba(5, 4, 8, 0.88)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',

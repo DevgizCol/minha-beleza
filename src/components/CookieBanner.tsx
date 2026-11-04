@@ -97,7 +97,7 @@ export const CookieBanner: React.FC = () => {
             right: '20px',
             maxWidth: '960px',
             margin: '0 auto',
-            zIndex: 9990,
+            zIndex: 8900,
             background: 'linear-gradient(135deg, rgba(14, 12, 22, 0.96) 0%, rgba(22, 19, 34, 0.98) 100%)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',

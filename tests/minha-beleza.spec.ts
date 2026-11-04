@@ -2,6 +2,16 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Minha Beleza — Experiencia Digital Ultra-Premium', () => {
   test.beforeEach(async ({ page }) => {
+    // Pre-sembrar consentimiento de cookies para evitar que el banner interfiera con la suite interactiva
+    await page.addInitScript(() => {
+      localStorage.setItem('mb_cookie_consent_v1', JSON.stringify({
+        essential: true,
+        preferences: true,
+        analytics: true,
+        consentTimestamp: new Date().toISOString(),
+        version: '2026.1'
+      }));
+    });
     await page.goto('/');
   });
 
